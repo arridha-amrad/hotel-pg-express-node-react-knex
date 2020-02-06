@@ -28,7 +28,9 @@ export default (state, action) => {
       localStorage.setItem("token", action.payload.token);
       return {
         ...state,
-        ...action.payload
+        ...action.payload,
+        loading: false,
+        isAuthenticated: true
       };
     case REGISTER_FAIL:
     case AUTH_ERROR:

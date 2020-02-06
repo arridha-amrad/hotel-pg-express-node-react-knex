@@ -1,7 +1,7 @@
 import React, { useContext } from "react";
 import AuthContext from "../../context/auth/authContext";
 
-const ModalLogout = () => {
+const ModalLogout = props => {
   const { logout } = useContext(AuthContext);
   const [modal, setModal] = React.useState(false);
   return (
@@ -29,7 +29,6 @@ const ModalLogout = () => {
               onClick={e => {
                 e.preventDefault();
                 logout();
-                setModal(false);
               }}
               className="btn blue"
             >

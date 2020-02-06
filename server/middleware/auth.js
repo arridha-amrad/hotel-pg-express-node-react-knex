@@ -1,5 +1,5 @@
 const jwt = require("jsonwebtoken");
-const { MY_CUSTOM_SECRET_KEY } = require("../../config");
+const { MY_CUSTOM_SECRET_KEY } = require("../config");
 
 module.exports = (req, res, next) => {
   // Get token from header
@@ -15,6 +15,7 @@ module.exports = (req, res, next) => {
     // console.log("Output middleware", id);
     next();
   } catch (err) {
+    console.log(err);
     res.status(401).json({ msg: "Token is not valid" });
   }
 };

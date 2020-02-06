@@ -5,54 +5,42 @@ import {
   REGISTER_SUCCESS,
   LOGIN_FAIL,
   LOGIN_SUCCESS,
-  LOGOUT
-  // AUTH_ERROR,
-  // USER_LOADED,
+  LOGOUT,
+  AUTH_ERROR,
+  USER_LOADED
   // CLEAR_ERRORS
 } from "../types";
 import Axios from "axios";
 import AuthContext from "./authContext";
-import jwtDecode from "jwt-decode";
-// import setAuthToken from "../../SetAuthToken";
+import setAuthToken from "../../SetAuthToken";
 
 const AuthState = props => {
   const initialState = {
+    token: localStorage.getItem("token"),
     isAuthenticated: false,
     message: null,
     user: null,
     error: null,
-    loading: false
+    loading: true
   };
   const [state, dispatch] = useReducer(AuthReducer, initialState);
 
-  if (localStorage.getItem("token")) {
-    const decodedToken = jwtDecode(localStorage.getItem("token"));
-    if (decodedToken.exp * 24 * 3600 < Date.now()) {
-      localStorage.removeItem("item");
-    } else {
-      initialState.user = decodedToken;
-      initialState.isAuthenticated = true;
+  // Load User
+  const loadUser = async () => {
+    // load token into global headers
+    if (localStorage.token) {
+      setAuthToken(localStorage.token);
     }
-  }
-
-  // // Load User
-  // const loadUser = async () => {
-  //   // load token into global headers
-  //   if (localStorage.token) {
-  //     setAuthToken(localStorage.token);
-  //   }
-
-  //   try {
-  //     const res = await axios.get("/api/auth");
-  //     dispatch({
-  //       type: USER_LOADED,
-  //       payload: res.data
-  //     });
-  //     // loadUser();
-  //   } catch (err) {
-  //     dispatch({ type: AUTH_ERROR });
-  //   }
-  // };
+    try {
+      const res = await Axios.get("/api/users");
+      dispatch({
+        type: USER_LOADED,
+        payload: res.data
+      });
+    } catch (err) {
+      dispatch({ type: AUTH_ERROR });
+    }
+  };
 
   // config to supply axios post
   const config = {
@@ -64,11 +52,7 @@ const AuthState = props => {
   const register = async newUserData => {
     try {
       initialState.loading = true;
-      const res = await Axios.post(
-        "/api/users/registrasi",
-        newUserData,
-        config
-      );
+      const res = await Axios.post("/api/users/signup", newUserData, config);
       dispatch({
         type: REGISTER_SUCCESS,
         payload: res.data.msg
@@ -84,12 +68,12 @@ const AuthState = props => {
   const loginUser = async userInput => {
     initialState.loading = true;
     try {
-      const res = await Axios.post("/api/users/masuk", userInput, config);
+      const res = await Axios.post("/api/users/login", userInput, config);
       dispatch({
         type: LOGIN_SUCCESS,
         payload: res.data
       });
-      // loadUser();
+      loadUser();
     } catch (err) {
       dispatch({
         type: LOGIN_FAIL,
@@ -118,7 +102,7 @@ const AuthState = props => {
         register,
         message: state.message,
         loginUser,
-        // loadUser,
+        loadUser,
         logout
         // clearErrors
       }}

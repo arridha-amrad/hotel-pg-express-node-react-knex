@@ -3,8 +3,7 @@ import AuthContext from "../../context/auth/authContext";
 
 const Login = props => {
   document.title = "Login";
-  const authContext = useContext(AuthContext);
-  const { loginUser, error, isAuthenticated, user } = authContext;
+  const { loginUser, error, isAuthenticated } = useContext(AuthContext);
   const [showPassword, setShowPassword] = useState(false);
   const [errorUi, setErrorUI] = useState("");
   const [states, setState] = useState({
@@ -21,18 +20,20 @@ const Login = props => {
     });
   };
 
-  const onSubmit = async e => {
+  const onSubmit = e => {
     e.preventDefault();
-    await loginUser(states);
+    loginUser(states);
   };
 
   useEffect(() => {
-    setErrorUI(error);
-    if (user) {
-      props.history.push("/home");
+    if (error) {
+      setErrorUI(error);
+    }
+    if (isAuthenticated) {
+      props.history.push("/");
     }
     // eslint - disable - next - line;
-  }, [error, props.history, isAuthenticated, user]);
+  }, [error, props.history, isAuthenticated]);
 
   return (
     <div className="container">

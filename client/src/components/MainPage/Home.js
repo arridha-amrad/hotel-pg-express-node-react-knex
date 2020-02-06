@@ -1,17 +1,13 @@
-import React, { useContext } from "react";
+import React, { useContext, useEffect, Fragment } from "react";
 import AuthContext from "../../context/auth/authContext";
-function Home() {
+const Home = () => {
   document.title = "Home";
-  const { user, loading } = useContext(AuthContext);
-  return (
-    <div>
-      {loading ? (
-        <p>loading...</p>
-      ) : (
-        <h1>{user ? <p>{user.email}</p> : <p>loading...</p>}</h1>
-      )}
-    </div>
-  );
-}
+  const { loadUser, user } = useContext(AuthContext);
+  useEffect(() => {
+    loadUser();
+    // eslint-disable-next-line
+  }, []);
+  return <Fragment>{user && <p>{user.username}</p>}</Fragment>;
+};
 
 export default Home;

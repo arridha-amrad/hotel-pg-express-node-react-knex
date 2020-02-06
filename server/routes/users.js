@@ -3,9 +3,9 @@ const router = express.Router();
 const knex = require("../database");
 const bcrypt = require("bcrypt");
 const jwt = require("jsonwebtoken");
-const { MY_CUSTOM_SECRET_KEY } = require("../../config");
 const auth = require("../middleware/auth");
 const uuidv4 = require("uuid/v4");
+const { generateToken } = require("../helper");
 
 // get login user
 router.get("/", auth, async (request, response) => {
@@ -50,25 +50,18 @@ router.post("/login", async (req, res) => {
   const { email, password } = req.body;
   try {
     const user = await knex("users").where("email", email);
-    // console.log(user[0]);
-    if (!user) {
-      res.status(400).json({ msg: "Email anda tidak teregistrasi" });
+    // console.log(user);
+    if (user.length < 1) {
+      return res.status(400).json({ msg: "Email anda tidak teregistrasi" });
     } else if (user && user[0].confirmed === false) {
-      res
+      return res
         .status(400)
         .json({ msg: "Silahkan konfirmasi email anda terlebih dahulu" });
     } else {
       const match = await bcrypt.compare(password, user[0].password);
-      if (!match) res.status(400).json({ msg: "Invalid email and password" });
-      const token = jwt.sign(
-        {
-          id: user[0].id
-        },
-        MY_CUSTOM_SECRET_KEY,
-        {
-          expiresIn: 360000
-        }
-      );
+      if (!match)
+        return res.status(400).json({ msg: "Invalid email and password" });
+      const token = generateToken(user[0].id);
       res.status(200).json({
         token
       });

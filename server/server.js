@@ -8,6 +8,7 @@ app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());
 
 app.use("/api/users", require("./routes/users"));
+app.use("/api/customers", require("./routes/customer"));
 
 app.listen(PORT, () => {
   console.log(`Server running from port ${PORT}🚀`);

@@ -8,6 +8,7 @@ import PrivateRoute from "./components/utils/PrivateRoute";
 // import AlertState from "./context/alert/alertState";
 import AuthState from "./context/auth/AuthState";
 import Header from "./components/utils/Header";
+// import setAuthToken from "./SetAuthToken";
 
 const App = () => {
   return (
@@ -15,9 +16,9 @@ const App = () => {
       <Header />
       <Router>
         <Switch>
-          <Route path="/" exact component={Login} />
-          <Route path="/register" exact component={Registrasi} />
-          <PrivateRoute path="/home" exact component={Home} />
+          <Route path="/login" exact component={Login} />
+          <Route path="/signup" exact component={Registrasi} />
+          <PrivateRoute path="/" exact component={Home} />
         </Switch>
       </Router>
     </AuthState>
