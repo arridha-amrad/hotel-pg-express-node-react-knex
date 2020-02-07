@@ -1,5 +1,5 @@
 {
-  "name": "hotel-pg",
+  "name": "hotel-pg-express-node-react-knex",
   "version": "1.0.0",
   "description": "",
   "main": "index.js",
@@ -8,7 +8,8 @@
     "server": "cd server && nodemon server",
     "client": "cd client && npm start",
     "dev": "concurrently \"npm run server\" \"npm run client\"",
-    "start": "cd server && node server"
+    "start": "cd server && node server",
+    "heroku-postbuild": "cd client && npm install && npm run build"
   },
   "keywords": [],
   "author": "",

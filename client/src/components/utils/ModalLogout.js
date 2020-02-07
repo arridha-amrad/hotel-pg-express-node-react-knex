@@ -13,7 +13,7 @@ const ModalLogout = props => {
         <div className="modal-content">
           <div className="modal-header blue">
             <span></span>
-            <h1>Header</h1>
+            <h1>Logout</h1>
             <span className="close" onClick={() => setModal(!modal)}>
               &times;
             </span>
