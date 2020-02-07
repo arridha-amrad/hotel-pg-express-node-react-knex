@@ -1,5 +1,6 @@
 import React, { useContext, useEffect, Fragment } from "react";
 import AuthContext from "../../context/auth/authContext";
+import CustomerTable from "./CustomerTable";
 const Home = () => {
   document.title = "Home";
   const { loadUser, user } = useContext(AuthContext);
@@ -7,7 +8,11 @@ const Home = () => {
     loadUser();
     // eslint-disable-next-line
   }, []);
-  return <Fragment>{user && <p>{user.username}</p>}</Fragment>;
+  return (
+    <Fragment>
+      <CustomerTable user={user} />
+    </Fragment>
+  );
 };
 
 export default Home;

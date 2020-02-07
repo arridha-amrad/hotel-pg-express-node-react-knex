@@ -208,6 +208,20 @@ body {
   display: none;
 }
 
+.btn-checkout {
+  padding: 0.2rem 0.5rem;
+  border: solid 1px rgb(0, 122, 255);
+  font-size: 1rem;
+  border-radius: 0.5rem;
+  cursor: pointer;
+  outline: none;
+}
+
+.btn-checkout:hover {
+  background-color: rgb(0, 122, 255);
+  color: #fff;
+}
+
 .modal {
   font-family: sans-serif;
   position: fixed;
@@ -252,10 +266,7 @@ body {
 }
 
 .modal-body {
-  /* display: flex;
-    justify-content: center;
-    flex-direction: column;
-    text-align: justify; */
+  text-align: left;
   padding: 2rem;
   color: #333;
   line-height: 2rem;
@@ -281,15 +292,15 @@ body {
 /* ALERT */
 .alert-container {
   display: flex;
-  justify-content: center;
   align-items: center;
   flex-wrap: wrap;
-  line-height: 1.5rem;
   border-radius: 0.5rem;
   width: 100%;
-  padding: 0 1rem;
+  padding: 0.5rem 0.5rem;
   margin: 1rem 0;
-  height: 4rem;
+}
+.alert-container i {
+  margin-right: 0.5rem;
 }
 .alert-danger {
   background-color: rgba(206, 52, 52, 0.212);
@@ -330,11 +341,14 @@ table {
 thead tr {
   background-color: #dddddd;
   width: 100%;
-  text-align: left;
+  text-align: center;
 }
 th {
   border-bottom: 2px solid rgb(255, 149, 0);
   width: 200px;
+}
+tbody td {
+  text-align: center;
 }
 th,
 td {
@@ -455,6 +469,8 @@ td {
 .text-error {
   font-size: small;
   color: red;
+  margin-top: -10px;
+  padding: 0 0.5rem;
 }
 .text-success {
   color: rgb(22, 133, 49);

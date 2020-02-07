@@ -2,6 +2,7 @@ const express = require("express");
 const router = express.Router();
 const auth = require("../middleware/auth");
 const knex = require("../database");
+const { validateCreateCustomer } = require("../validator");
 
 router.get("/", async (req, res) => {
   try {
@@ -17,18 +18,26 @@ router.get("/", async (req, res) => {
 });
 
 router.post("/", auth, async (req, res) => {
-  const { name, asal, noid, identitas, durasi } = req.body;
+  const { fullname, asal, noid, identitas, durasi } = req.body;
+  const { valid, errors } = validateCreateCustomer(
+    fullname,
+    asal,
+    noid,
+    identitas,
+    durasi
+  );
+  if (!valid) {
+    return res.status(400).json(errors);
+  }
   try {
     const receptionist = await knex("users").where("id", id);
     await knex("customers").insert({
-      name,
+      name: fullname,
       asal,
       noid,
       identitas,
-      checkin: new Date().toISOString(),
-      checkout: "-",
+      checkin: new Date(),
       ci_receptionist: receptionist[0].username,
-      co_receptionist: "-",
       durasi,
       credit: parseInt(durasi) * 100000
     });
@@ -48,7 +57,7 @@ router.put("/:id", auth, async (req, res) => {
     const customer = await knex("customers")
       .where("id", cid)
       .update({
-        checkout: new Date().toISOString(),
+        checkout: new Date(),
         co_receptionist: receptionist[0].username
       });
     // console.log(customer);

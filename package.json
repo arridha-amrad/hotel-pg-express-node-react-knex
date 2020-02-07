@@ -23,7 +23,9 @@
     "jwt-decode": "^2.2.0",
     "knex": "^0.20.8",
     "lodash": "^4.17.15",
+    "moment": "^2.24.0",
     "pg": "^7.18.1",
+    "react-moment": "^0.9.7",
     "react-router-dom": "^5.1.2",
     "uuid": "^3.4.0"
   },
